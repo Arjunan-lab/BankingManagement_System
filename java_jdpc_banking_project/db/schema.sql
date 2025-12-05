@@ -1,0 +1,24 @@
+-- Banking Management System database schema
+CREATE DATABASE IF NOT EXISTS bank_db;
+USE bank_db;
+
+CREATE TABLE IF NOT EXISTS accounts (
+  account_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  email VARCHAR(50) NOT NULL UNIQUE,
+  phone VARCHAR(15),
+  password VARCHAR(255) NOT NULL,
+  balance DOUBLE DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  status ENUM('ACTIVE','FROZEN','CLOSED') DEFAULT 'ACTIVE'
+);
+
+CREATE TABLE IF NOT EXISTS transactions (
+  transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+  account_id INT NOT NULL,
+  type VARCHAR(20) NOT NULL,
+  amount DOUBLE NOT NULL,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  remarks VARCHAR(255),
+  FOREIGN KEY (account_id) REFERENCES accounts(account_id) ON DELETE CASCADE
+);
